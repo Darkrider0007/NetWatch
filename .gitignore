@@ -1,0 +1,145 @@
+# ==========================================================
+# NetWatch - .gitignore
+# ==========================================================
+
+# -----------------------
+# Python
+# -----------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.so
+
+# -----------------------
+# Virtual Environments
+# -----------------------
+.venv/
+venv/
+env/
+ENV/
+
+# -----------------------
+# Conda
+# -----------------------
+.conda/
+conda-meta/
+
+# -----------------------
+# Build / Distribution
+# -----------------------
+build/
+dist/
+*.spec.bak
+
+# -----------------------
+# PyInstaller
+# -----------------------
+*.manifest
+*.exe.manifest
+
+# -----------------------
+# Logs
+# -----------------------
+logs/
+*.log
+
+# -----------------------
+# SQLite Databases
+# -----------------------
+*.db
+*.sqlite
+*.sqlite3
+
+# Uncomment below if you want to keep the schema but not the data
+# !database/
+# !database/schema.sql
+
+# -----------------------
+# Runtime Cache
+# -----------------------
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# -----------------------
+# VS Code
+# -----------------------
+.vscode/
+
+# -----------------------
+# JetBrains
+# -----------------------
+.idea/
+
+# -----------------------
+# Windows
+# -----------------------
+Thumbs.db
+Desktop.ini
+
+# -----------------------
+# macOS
+# -----------------------
+.DS_Store
+
+# -----------------------
+# Environment Variables
+# -----------------------
+.env
+.env.*
+!.env.example
+
+# -----------------------
+# GeoLite2 Database
+# (Download separately from MaxMind)
+# -----------------------
+GeoLite2/
+*.mmdb
+
+# -----------------------
+# Temporary Files
+# -----------------------
+*.tmp
+*.bak
+*.old
+*.swp
+
+# -----------------------
+# Coverage
+# -----------------------
+.coverage
+htmlcov/
+
+# -----------------------
+# Jupyter
+# -----------------------
+.ipynb_checkpoints/
+
+# -----------------------
+# Test Output
+# -----------------------
+pytestdebug.log
+
+# -----------------------
+# Local Assets (optional)
+# Uncomment if you don't want to commit generated assets
+# -----------------------
+# screenshots/
+# exports/
+
+# -----------------------
+# Python Packaging
+# -----------------------
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# -----------------------
+# Misc
+# -----------------------
+.python-version
+
+settings.json
