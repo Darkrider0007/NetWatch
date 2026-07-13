@@ -319,6 +319,15 @@ Generate spec
 pyi-makespec --windowed main.py
 ```
 
+Update the `main.spec`
+```
+datas=[],
+```
+Replace it with:
+```
+datas=[("resources", "resources"),],
+```
+
 Build
 
 ```powershell
