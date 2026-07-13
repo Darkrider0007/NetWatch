@@ -40,7 +40,7 @@ jobs:
             -Uri "https://git.io/GeoLite2-Country.mmdb" `
             -OutFile "resources\geoip\GeoLite2-Country.mmdb"
 
-      - name: Build Executable
+      - name: Build Executable using pyinstaller
         run: |
           pyinstaller main.spec
 
