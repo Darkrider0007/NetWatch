@@ -33,6 +33,8 @@ from gui.process_action_service import ProcessActionService
 from services.notification_service import NotificationService
 from services.statistics_service import StatisticsService
 from services.settings_service import SettingsService
+from utils.resource_path import resource_path
+from PySide6.QtGui import QIcon
 
 class MainWindow(QMainWindow):
 
@@ -41,6 +43,12 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle(APP_NAME)
+
+        self.setWindowIcon(
+            QIcon(
+                str(resource_path("assets/icon.ico"))
+            )
+        )
 
         self.resize(
             WINDOW_WIDTH,
@@ -51,7 +59,9 @@ class MainWindow(QMainWindow):
 
         self.addToolBar(self.toolbar)
 
-        self.tray = QSystemTrayIcon(self)
+        self.tray = QSystemTrayIcon(
+            QIcon(str(resource_path("assets/icon.ico")))
+        )
         self.tray.setIcon(self.windowIcon())
         self.tray.show()
         self.notification_service = NotificationService(
