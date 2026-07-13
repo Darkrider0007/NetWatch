@@ -287,7 +287,7 @@ Place it inside
 ```
 NetWatch/
 
-└── assets/
+└── resources/geoip
       GeoLite2-Country.mmdb
 ```
 
