@@ -48,7 +48,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path release | Out-Null
-          Copy-Item dist\main release\NetWatch -Recurse
+          Copy-Item dist\NetWatch release\NetWatch -Recurse
 
       - name: Create ZIP
         shell: powershell
