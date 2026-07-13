@@ -1,4 +1,12 @@
-# 🌐 NetWatch
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Darkrider0007/NetWatch/main/assets/logo.png" alt="NetWatch Logo" width="180">
+</p>
+
+<h1 align="center">🌐 NetWatch</h1>
+
+<p align="center">
+A modern Windows desktop application for monitoring live Internet connections made by applications.
+</p>
 
 <p align="center">
 
@@ -7,31 +15,40 @@
 ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite)
 ![Windows](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![GitHub release](https://img.shields.io/github/v/release/Darkrider0007/NetWatch?style=for-the-badge)
+![GitHub Repo stars](https://img.shields.io/github/stars/Darkrider0007/NetWatch?style=for-the-badge)
 
 </p>
 
 ---
 
-## 📖 Overview
+# 📖 Overview
 
 **NetWatch** is a modern desktop application that monitors **live Internet network connections** made by applications running on Windows.
 
-Unlike a traditional packet sniffer, NetWatch focuses on **which application is communicating over the Internet**, displaying detailed information such as:
+Unlike traditional packet sniffers, NetWatch focuses on **which application is communicating over the Internet**, displaying rich process and connection information in a clean, real-time graphical interface.
 
-- Process Name
-- Publisher
-- Executable Path
-- Remote Host
-- Country
-- IP Address
-- Port
-- Protocol
-- Connection Status
-- Timestamp
+Features include:
 
-The application continuously scans active network connections, filters out unnecessary Windows internal traffic, enriches the information with DNS and GeoIP lookups, and displays everything inside a clean desktop GUI.
+- 🌐 Live Internet Connection Monitoring
+- 🖥 Process & Publisher Information
+- 🌍 DNS Resolution
+- 🌎 GeoIP Country Lookup
+- 📊 Statistics Dashboard
+- 🔍 Advanced Search & Filtering
+- 🗃 SQLite Connection History
+- 📤 CSV Export
+- 🔔 Desktop Notifications
+- 🖱 Process Context Menu
+- 🌙 Modern Dark Theme
 
 ---
+
+# 📸 Screenshots
+
+<p align="left">
+<img src="https://raw.githubusercontent.com/Darkrider0007/NetWatch/main/assets/SS1.png" width="600">
+</p>
 
 # ✨ Features
 
@@ -79,16 +96,12 @@ using asynchronous background workers.
 
 Shows the country of every remote IP.
 
-Example
-
 | IP | Country |
 |----|----------|
 |8.8.8.8|United States|
 |1.1.1.1|Australia|
 
-Powered by:
-
-- MaxMind GeoLite2 Country Database
+Powered by the **MaxMind GeoLite2 Country Database**.
 
 ---
 
@@ -133,44 +146,42 @@ Export all visible connections into CSV format.
 
 Useful for
 
-- Incident response
-- Security auditing
+- Incident Response
+- Security Auditing
 - Reports
 
 ---
 
 ## 🔔 Desktop Notifications
 
-Detects new connections and displays desktop notifications.
+Detects new outbound Internet connections and displays desktop notifications.
 
 ---
 
 ## 🖱 Context Menu
 
-Right click a process to
+Right-click a process to:
 
 - Kill Process
 - Open File Location
-- View Properties
-
+- View File Properties
 
 ---
 
 ## 🎨 Dark Theme
 
-Modern dark interface using Qt Style Sheets.
+Modern dark interface built using Qt Style Sheets.
 
 ---
 
 # 🏗 Architecture
 
-```
+```text
                 +----------------------+
                 |      MainWindow      |
                 +----------+-----------+
                            |
           +----------------+----------------+
-          |                                 |
           |                                 |
      Process Table                  Details Panel
           |                                 |
@@ -191,32 +202,24 @@ Modern dark interface using Qt Style Sheets.
 
 # 📂 Project Structure
 
-```
+```text
 NetWatch
 │
 ├── assets/
-│
 ├── database/
-│   ├── database.py
-│   └── history.db
-│
 ├── gui/
-│
 ├── models/
-│
 ├── monitor/
-│
+├── resources/
 ├── services/
-│
 ├── themes/
-│
 ├── utils/
-│
 ├── logs/
 │
 ├── config.py
 ├── main.py
 ├── requirements.txt
+├── main.spec
 └── README.md
 ```
 
@@ -226,41 +229,30 @@ NetWatch
 
 | Technology | Purpose |
 |------------|----------|
-|Python|Programming Language|
-|PySide6|GUI Framework|
-|SQLite|History Database|
-|psutil|Network & Process Monitoring|
-|socket|DNS Resolution|
-|threading|Background Tasks|
-|GeoLite2|Country Lookup|
-|csv|Export|
-|logging|Application Logging|
+| Python | Programming Language |
+| PySide6 | GUI Framework |
+| SQLite | Connection History |
+| psutil | Network & Process Monitoring |
+| socket | DNS Resolution |
+| threading | Background Workers |
+| GeoLite2 | Country Lookup |
+| csv | CSV Export |
+| logging | Application Logging |
+| PyInstaller | Executable Packaging |
 
 ---
 
 # 📦 Installation
 
-## Clone Repository
-
-## Create Virtual Environment
-
-Windows
-
 ```powershell
+git clone https://github.com/Darkrider0007/NetWatch.git
+
+cd NetWatch
+
 python -m venv .venv
-```
 
-Activate
-
-```powershell
 .venv\Scripts\activate
-```
 
----
-
-## Install Requirements
-
-```powershell
 pip install -r requirements.txt
 ```
 
@@ -268,32 +260,29 @@ pip install -r requirements.txt
 
 # 🌍 GeoLite2 Database
 
-NetWatch requires the **GeoLite2 Country Database** from MaxMind.
+NetWatch uses the **MaxMind GeoLite2 Country Database**.
 
 Due to MaxMind's licensing terms, the database file is **not included** in this repository.
 
-## Download
+Download the latest database from:
 
 <https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/>
 
-After downloading:
+Place
 
-```
+```text
 GeoLite2-Country.mmdb
 ```
 
-Place it inside
+inside
 
+```text
+resources/
+└── geoip/
+    └── GeoLite2-Country.mmdb
 ```
-NetWatch/
 
-└── resources/geoip
-      GeoLite2-Country.mmdb
-```
-
-or the location configured in `config.py`.
-
-Without this file, country detection will be unavailable.
+If the file is missing, NetWatch will continue to work, but country information will not be displayed.
 
 ---
 
@@ -305,170 +294,97 @@ python main.py
 
 ---
 
-# 🏗 Building Executable
+# 🛡 Microsoft Defender SmartScreen
 
-Install
+Since NetWatch is an open-source project and is currently **not digitally signed**, Windows may display a Microsoft Defender SmartScreen warning when launching the application.
+
+This is expected for new applications that have not yet built Microsoft SmartScreen reputation.
+
+To continue:
+
+1. Click **More info**
+2. Click **Run anyway**
+
+If you prefer, you can build the project yourself directly from source.
+
+---
+
+# 🏗 Building Executable
 
 ```powershell
 pip install pyinstaller
-```
 
-Generate spec
-
-```powershell
-pyi-makespec --windowed main.py
-```
-
-Update the `main.spec`
-```
-datas=[],
-```
-Replace it with:
-```
-datas=[("resources", "resources"),],
-```
-
-Build
-
-```powershell
 pyinstaller main.spec
 ```
 
-Executable will be inside
+The executable will be generated in:
 
-```
-dist/
-```
-
----
-
-# 📋 Database
-
-SQLite stores
-
-- Connection History
-- Process Information
-- Remote Host
-- Ports
-- Country
-- Status
-- Timestamp
-
-Database file
-
-```
-history.db
+```text
+dist/NetWatch/
 ```
 
 ---
 
-# 📁 Logging
+# 🚀 Continuous Integration
 
-Application logs are stored in
+GitHub Actions automatically builds NetWatch for every version tag.
 
-```
-logs/
-```
-
-Includes
-
-- Startup
-- Errors
-- Network Scanner
-- Database
-- Services
-
----
-
-# 🔧 Configuration
-
-Configuration can be modified in
-
-```
-config.py
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-Examples
+The workflow automatically:
 
-- Refresh Interval
-- Window Size
-- Theme
-- Database Path
-- DNS Settings
-
----
-
-# 📚 Open Source Resources Used
-
-## Python
-
-<https://www.python.org/>
+- Builds the project
+- Downloads the GeoLite2 database
+- Packages the application
+- Publishes a GitHub Release
 
 ---
 
-## PySide6
+# 🔒 Security & Privacy
 
-<https://doc.qt.io/qtforpython/>
+NetWatch performs all analysis locally on your computer.
 
----
+The application:
 
-## psutil
+- Does not upload network information
+- Does not collect personal data
+- Does not inspect packet contents
+- Does not transmit telemetry
 
-<https://github.com/giampaolo/psutil>
-
----
-
-## SQLite
-
-<https://sqlite.org/>
+Only DNS and GeoIP lookups are performed when enabled.
 
 ---
 
-## MaxMind GeoLite2
+# 📚 Open Source Resources
 
-<https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/>
-
----
-
-## Qt
-
-<https://www.qt.io/>
-
----
-
-## PyInstaller
-
-<https://pyinstaller.org/>
+- Python — <https://www.python.org/>
+- PySide6 — <https://doc.qt.io/qtforpython/>
+- Qt — <https://www.qt.io/>
+- psutil — <https://github.com/giampaolo/psutil>
+- SQLite — <https://sqlite.org/>
+- MaxMind GeoLite2 — <https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/>
+- PyInstaller — <https://pyinstaller.org/>
+- VirusTotal — <https://www.virustotal.com/>
+- AbuseIPDB — <https://www.abuseipdb.com/>
 
 ---
 
-## VirusTotal
-
-<https://www.virustotal.com/>
-
----
-
-## AbuseIPDB
-
-<https://www.abuseipdb.com/>
-
----
-
-# 🚀 Future Improvements
+# 🚀 Future Roadmap
 
 - Firewall Rule Management
 - Packet Capture
-- Whois Integration
-- Bandwidth Monitoring
-- Connection Graphs
-- Process Tree
+- WHOIS Integration
 - VirusTotal API Integration
+- Connection Graphs
+- Bandwidth Monitoring
+- Real-Time Alerts
 - Startup Applications Monitor
 - Digital Signature Verification
-- Windows Service Detection
-- Real-time Alerts
 - Theme Switching
-- Auto Update
+- Automatic Updates
 
 ---
 
@@ -481,13 +397,13 @@ NetWatch is intended for:
 - Educational Purposes
 - Software Diagnostics
 
-The application does **not** capture packet contents or decrypt encrypted traffic. It only displays metadata about active network connections available through the operating system.
+It **does not capture packet contents**, decrypt encrypted traffic, or intercept communications. It only displays network connection metadata exposed by the Windows operating system.
 
 ---
 
 # 🤝 Contributing
 
-Contributions are welcome.
+Contributions are welcome!
 
 1. Fork the repository
 2. Create a feature branch
@@ -511,4 +427,8 @@ This project is licensed under the **MIT License**.
 
 ---
 
-## ⭐ If you found this project useful, consider giving it a Star
+<p align="center">
+
+### ⭐ If you found NetWatch useful, consider giving the repository a Star
+
+</p>
