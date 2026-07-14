@@ -7,9 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Latest GitHub Release
   // ===========================================
 
-  const releaseVersion = "1.0.0";
-  const releaseFileName = `NetWatch-v${releaseVersion}-Windows.zip`;
-  const releaseDownloadUrl = `https://github.com/Darkrider0007/NetWatch/releases/download/v${releaseVersion}/${releaseFileName}`;
   const downloadButton = document.getElementById("download-btn");
   const releaseDownloadButton = document.getElementById("release-download-btn");
   const footerDownloadButton = document.getElementById("footer-download-btn");
@@ -22,34 +19,60 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (releaseDownloadButton) {
-    releaseDownloadButton.href = releaseDownloadUrl;
+    releaseDownloadButton.href = fallbackDownloadUrl;
   }
 
   if (footerDownloadButton) {
-    footerDownloadButton.href = releaseDownloadUrl;
+    footerDownloadButton.href = fallbackDownloadUrl;
   }
 
   if (releaseVersionLabel) {
-    releaseVersionLabel.textContent = releaseVersion;
+    releaseVersionLabel.textContent = "Latest";
   }
 
   fetch("https://api.github.com/repos/Darkrider0007/NetWatch/releases/latest")
     .then((response) => response.json())
 
     .then((release) => {
-      if (!downloadButton) {
-        return;
+      const releaseUrl = release?.html_url || fallbackDownloadUrl;
+      const windowsAsset = release?.assets?.find((asset) => {
+        const name = asset?.name?.toLowerCase() || "";
+        return name.includes("windows") && name.endsWith(".zip");
+      });
+      const firstAsset = release?.assets?.[0];
+      const downloadUrl =
+        windowsAsset?.browser_download_url ||
+        firstAsset?.browser_download_url ||
+        releaseUrl;
+      const latestVersion = release?.tag_name || release?.name || "Latest";
+
+      if (downloadButton) {
+        downloadButton.href = downloadUrl;
       }
 
-      if (release.assets && release.assets.length > 0) {
-        downloadButton.href = release.assets[0].browser_download_url;
-      } else if (release.html_url) {
-        downloadButton.href = release.html_url;
+      if (releaseDownloadButton) {
+        releaseDownloadButton.href = downloadUrl;
+      }
+
+      if (footerDownloadButton) {
+        footerDownloadButton.href = downloadUrl;
+      }
+
+      if (releaseVersionLabel) {
+        releaseVersionLabel.textContent = latestVersion.replace(/^v/i, "");
+      }
+
+      if (!downloadButton && !releaseDownloadButton && !footerDownloadButton) {
+        return;
       }
     })
 
     .catch((error) => {
       console.error(error);
+
+      if (releaseVersionLabel) {
+        releaseVersionLabel.textContent = "Latest";
+      }
     });
 
   // ===========================================
@@ -227,9 +250,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Current Year
   // ===========================================
 
-  const year = document.getElementById("year");
+  const copyright = document.getElementById("copyright");
 
-  if (year) {
-    year.textContent = new Date().getFullYear();
+  if (copyright) {
+    const currentYear = new Date().getFullYear();
+    copyright.textContent = `© ${currentYear} Rohan Gope`;
   }
 });
