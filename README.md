@@ -357,7 +357,42 @@ The application:
 Only DNS and GeoIP lookups are performed when enabled.
 
 ---
+---
 
+# ✅ Testing & Quality Assurance
+
+NetWatch uses **GitHub Actions** to automatically validate every code change.
+
+### Continuous Integration
+
+Every Push and Pull Request that modifies Python source code automatically:
+
+- Installs all project dependencies
+- Executes the complete test suite using `pytest`
+- Generates a code coverage report
+- Verifies that the project builds successfully
+
+To reduce unnecessary workflow executions, changes to documentation and frontend assets such as:
+
+- Markdown (`*.md`)
+- HTML (`*.html`)
+- CSS (`*.css`)
+- JavaScript (`*.js`)
+
+do **not** trigger the CI workflow.
+
+### Branch Protection
+
+The `main` branch is protected.
+
+A Pull Request **cannot be merged** unless:
+
+- ✅ All automated tests pass
+- ✅ Every required GitHub Action completes successfully
+
+This ensures that only verified, working code is merged into the main branch.
+
+---
 # 📚 Open Source Resources
 
 - Python — <https://www.python.org/>
