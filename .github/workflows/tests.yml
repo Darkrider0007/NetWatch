@@ -4,14 +4,29 @@ on:
   push:
     branches:
       - "**"
+    paths:
+      - "**/*.py"
+      - "requirements.txt"
+      - "requirements-dev.txt"
+      - "pyproject.toml"
+      - "pytest.ini"
+      - ".coveragerc"
+      - ".github/workflows/**"
 
   pull_request:
     branches:
       - main
+    paths:
+      - "**/*.py"
+      - "requirements.txt"
+      - "requirements-dev.txt"
+      - "pyproject.toml"
+      - "pytest.ini"
+      - ".coveragerc"
+      - ".github/workflows/**"
 
 jobs:
   tests:
-
     runs-on: windows-latest
 
     strategy:
@@ -41,6 +56,6 @@ jobs:
         run: |
           pytest
 
-      - name: Coverage
+      - name: Generate Coverage Report
         run: |
           pytest --cov=. --cov-report=xml --cov-report=html
