@@ -1,5 +1,5 @@
 from types import SimpleNamespace
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from gui.main_window import MainWindow
 
@@ -12,10 +12,17 @@ def create_window():
     window.monitor.stop = MagicMock()
     window.monitor.wait = MagicMock()
     window.monitor.isRunning = MagicMock(return_value=False)
+    window.monitor.scanner = MagicMock()
+    window.monitor.scanner.scan.return_value = []
 
     window.process_actions = MagicMock()
-    window.process_actions.kill = MagicMock()
+    window.process_actions.kill = MagicMock(
+        return_value=(True, "Killed")
+    )
     window.process_actions.open_location = MagicMock()
+
+    window.status = MagicMock()
+    window.update_connections = MagicMock()
 
     window.selected_connection = None
 
@@ -48,14 +55,25 @@ def test_toggle_refresh_stop():
     window.monitor.stop.assert_called_once() # type: ignore
 
 
-def test_kill_process():
+@patch("gui.main_window.QMessageBox.question")
+def test_kill_process(mock_question):
+
+    from PySide6.QtWidgets import QMessageBox
+
+    mock_question.return_value = QMessageBox.StandardButton.Yes
+
     window = create_window()
 
-    window.selected_connection = SimpleNamespace(pid=1234)
+    window.selected_connection = SimpleNamespace(
+        pid=1234,
+        process="chrome.exe",
+    )
 
     window.kill_process()
 
     window.process_actions.kill.assert_called_once_with(1234) # type: ignore
+    window.status.showMessage.assert_called_once() # type: ignore
+    window.update_connections.assert_called_once() # type: ignore
 
 
 def test_kill_process_without_selection():
@@ -86,3 +104,21 @@ def test_open_location_without_selection():
     window.open_location()
 
     window.process_actions.open_location.assert_not_called() # type: ignore
+
+@patch("gui.main_window.QMessageBox.question")
+def test_kill_process_cancel(mock_question):
+
+    from PySide6.QtWidgets import QMessageBox
+
+    mock_question.return_value = QMessageBox.StandardButton.No
+
+    window = create_window()
+
+    window.selected_connection = SimpleNamespace(
+        pid=1234,
+        process="chrome.exe",
+    )
+
+    window.kill_process()
+
+    window.process_actions.kill.assert_not_called() # type: ignore
