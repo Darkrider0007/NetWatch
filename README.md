@@ -14,7 +14,7 @@ A modern Windows desktop application for monitoring live Internet connections ma
 ![PySide6](https://img.shields.io/badge/PySide6-GUI-41CD52?style=for-the-badge&logo=qt)
 ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite)
 ![Windows](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub release](https://img.shields.io/github/v/release/Darkrider0007/NetWatch?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/Darkrider0007/NetWatch?style=for-the-badge)
 
