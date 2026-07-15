@@ -449,7 +449,17 @@ Contributions are welcome!
 
 # 📄 License
 
-This project is licensed under the **MIT License**.
+NetWatch is free and open-source software licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+
+This means you are free to:
+- ✅ Use the software for any purpose.
+- ✅ Study how it works.
+- ✅ Modify and improve it.
+- ✅ Share the original or modified versions.
+
+If you distribute this software or a modified version, you must also provide the source code under the same **GPL-3.0** license.
+
+For complete terms and conditions, see the [LICENSE](LICENSE) file.
 
 ---
 
