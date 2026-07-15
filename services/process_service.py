@@ -29,7 +29,10 @@ class ProcessService:
             return None
 
     @classmethod
-    def get_process_info(cls, pid: int) -> ProcessInfo | None:
+    def get_process_info(
+        cls,
+        pid: int,
+    ) -> ProcessInfo | None:
 
         process = cls.get_process(pid)
 
@@ -38,35 +41,57 @@ class ProcessService:
             return None
 
         try:
-
-            return ProcessInfo(
-
-                pid=pid,
-
-                name=process.name(),
-
-                executable=process.exe(),
-
-                parent_pid=process.ppid(),
-
-                username=process.username(),
-
-            )
-
+            name = process.name()
         except Exception:
+            name = "Unknown"
 
-            return None
+        try:
+            executable = process.exe()
+        except Exception:
+            executable = ""
+
+        try:
+            parent_pid = process.ppid()
+        except Exception:
+            parent_pid = 0
+
+        try:
+            username = process.username()
+        except Exception:
+            username = ""
+
+        return ProcessInfo(
+            pid=pid,
+            name=name,
+            executable=executable,
+            parent_pid=parent_pid,
+            username=username,
+        )
 
     @classmethod
-    def get_name(cls, pid: int) -> str:
+    def get_name(
+        cls,
+        pid: int,
+    ) -> str:
 
         info = cls.get_process_info(pid)
 
-        return info.name if info else "Unknown"
+        if info is None:
+
+            return "Unknown"
+
+        return info.name
 
     @classmethod
-    def get_executable(cls, pid: int) -> str:
+    def get_executable(
+        cls,
+        pid: int,
+    ) -> str:
 
         info = cls.get_process_info(pid)
 
-        return info.executable if info else ""
+        if info is None:
+
+            return ""
+
+        return info.executable
