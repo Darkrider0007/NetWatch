@@ -21,7 +21,7 @@ VSVersionInfo(
             StringStruct("InternalName", "NetWatch"),
             StringStruct("OriginalFilename", "NetWatch.exe"),
             StringStruct("ProductName", "NetWatch"),
-            StringStruct("ProductVersion", "1.0.0"),
+            StringStruct("ProductVersion", "1.0.1"),
             StringStruct("LegalCopyright", "Copyright (c) 2026 Rohan Gope")
           ]
         )
