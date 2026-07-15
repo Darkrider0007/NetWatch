@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
     QSystemTrayIcon,
+    QMessageBox,
 )
 from PySide6.QtGui import QIcon
 
@@ -287,9 +288,39 @@ class MainWindow(QMainWindow):
 
     def kill_process(self):
 
-        if self.selected_connection:
-            self.process_actions.kill(
-                self.selected_connection.pid
+        if not self.selected_connection:
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Kill Process",
+            (
+                f"Terminate '{self.selected_connection.process}'?\n\n"
+                "This will close the application and all of its child processes."
+            ),
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No,
+        )
+
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+
+        success, message = self.process_actions.kill(
+            self.selected_connection.pid
+        )
+
+        self.status.showMessage(
+            message,
+            5000,
+        )
+
+        if success:
+
+            self.update_connections(
+                {
+                    "current": self.monitor.scanner.scan(),
+                    "new": [],
+                }
             )
 
     def open_location(self):
