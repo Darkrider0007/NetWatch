@@ -21,7 +21,10 @@ def test_save_and_load(tmp_path, monkeypatch):
 
     loaded = service.load()
 
-    assert loaded == data
+    expected = SettingsService.DEFAULTS.copy()
+    expected.update(data)
+
+    assert loaded == expected
 
 
 def test_load_missing_file(tmp_path, monkeypatch):
@@ -35,4 +38,4 @@ def test_load_missing_file(tmp_path, monkeypatch):
 
     service = SettingsService()
 
-    assert service.load() == {}
+    assert service.load() == SettingsService.DEFAULTS

@@ -12,6 +12,7 @@ class MainToolBar(QToolBar):
     refresh_changed = Signal(bool)
     history_clicked = Signal()
     clear_history = Signal()
+    settings_clicked = Signal()
 
     def __init__(self):
 
@@ -24,6 +25,10 @@ class MainToolBar(QToolBar):
         self.export_action = QAction("Export CSV")
 
         self.settings_action = QAction("Settings")
+
+        self.settings_action.triggered.connect(
+            self.settings_clicked.emit
+        )
 
         self.addAction(self.refresh_action)
 

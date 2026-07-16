@@ -47,7 +47,8 @@ def create_window():
     window.monitor.scanner.dns_service.put = MagicMock()
 
     window.selected_connection = None
-
+    window.notification_enabled = True
+    
     return window
 
 
@@ -57,6 +58,7 @@ def test_update_connections():
     connection = SimpleNamespace(
         pid=10,
         remote_ip="8.8.8.8",
+        remote_port=443,
         process="chrome.exe",
         remote_host="dns.google",
     )
@@ -68,7 +70,7 @@ def test_update_connections():
     window.update_connections(
         {
             "current": [connection],
-            "new": [connection],
+            "added": [connection],
         }
     )
 
@@ -88,6 +90,8 @@ def test_connection_selected():
     connection = object()
 
     window.connection_selected(connection)
+
+    window.notification_enabled = True
 
     assert window.selected_connection is connection
 
@@ -144,4 +148,87 @@ def test_show_error():
     statusbar.showMessage.assert_called_once_with(
         "Something failed",
         5000,
+    )
+
+
+def test_notifications_disabled():
+
+    window = create_window()
+
+    window.notification_enabled = False
+
+    connection = SimpleNamespace(
+        pid=10,
+        remote_ip="8.8.8.8",
+        remote_port=443,
+        process="chrome.exe",
+        remote_host="dns.google",
+    )
+
+    window.filter_service.filter_connections.return_value = [ # type: ignore
+        connection
+    ]
+
+    window.update_connections(
+        {
+            "current": [connection],
+            "added": [connection],
+        }
+    )
+
+    window.notification_service.notify.assert_not_called() # type: ignore
+
+
+def test_no_added_connections():
+
+    window = create_window()
+
+    connection = SimpleNamespace(
+        pid=10,
+        remote_ip="8.8.8.8",
+        remote_port=443,
+        process="chrome.exe",
+        remote_host="dns.google",
+    )
+
+    window.filter_service.filter_connections.return_value = [ # type: ignore
+        connection
+    ]
+
+    window.update_connections(
+        {
+            "current": [connection],
+            "added": [],
+        }
+    )
+
+    window.notification_service.notify.assert_not_called() # type: ignore
+
+
+def test_notification_message():
+
+    window = create_window()
+
+    connection = SimpleNamespace(
+        pid=10,
+        remote_ip="8.8.8.8",
+        remote_port=443,
+        process="chrome.exe",
+        remote_host="dns.google",
+    )
+
+    window.filter_service.filter_connections.return_value = [ # type: ignore
+        connection
+    ]
+
+    window.update_connections(
+        {
+            "current": [connection],
+            "added": [connection],
+        }
+    )
+
+    window.notification_service.notify.assert_called_once_with( # type: ignore
+        "New Network Activity",
+        "chrome.exe\nConnected to dns.google:443",
     )

@@ -36,6 +36,7 @@ from services.statistics_service import StatisticsService
 from services.settings_service import SettingsService
 from utils.resource_path import resource_path
 from PySide6.QtGui import QIcon
+from gui.settings_dialog import SettingsDialog
 
 class MainWindow(QMainWindow):
 
@@ -82,6 +83,14 @@ class MainWindow(QMainWindow):
         self.filter_bar = FilterBar()
 
         saved = self.settings_service.load()
+
+        self.notification_enabled = saved["notifications"]
+
+        self.toolbar.auto_refresh.setChecked(
+            saved["auto_refresh"]
+        )
+
+        self.monitor_interval = saved["refresh_interval"]
 
         self.resize(
             saved.get("width", WINDOW_WIDTH),
@@ -162,6 +171,9 @@ class MainWindow(QMainWindow):
         self.toolbar.clear_history.connect(
             self.clear_history
         )
+        self.toolbar.settings_clicked.connect(
+            self.show_settings
+        )
         self.table.menu.virustotal_requested.connect(
             self.open_virustotal
         )
@@ -188,11 +200,13 @@ class MainWindow(QMainWindow):
             self.monitor.stop()
 
     def update_connections(self, changes):
+
         connections = self.filter_service.filter_connections(
             changes["current"],
             self.filter_state,
         )
-        new_connections = changes.get("new", [])
+
+        added_connections = changes.get("added", [])
 
         self.table.clear_connections()
 
@@ -201,6 +215,7 @@ class MainWindow(QMainWindow):
         for connection in connections:
 
             self.table.add_connection(connection)
+
             self.dns_worker.resolve(
                 connection.remote_ip
             )
@@ -213,16 +228,42 @@ class MainWindow(QMainWindow):
         )
 
         stats = self.statistics.build(connections)
+
         self.details.update_statistics(stats)
 
-        for connection in new_connections:
+        # Desktop Notification
+        if (
+            self.notification_enabled
+            and added_connections
+        ):
+
+            first = added_connections[0]
+
+            host = (
+                first.remote_host
+                if first.remote_host
+                and first.remote_host != first.remote_ip
+                else first.remote_ip
+            )
+
+            message = (
+                f"{first.process}\n"
+                f"Connected to {host}:{first.remote_port}"
+            )
+
+            if len(added_connections) > 1:
+
+                message += (
+                    f"\n+ {len(added_connections) - 1} more connection(s)"
+                )
+
             self.notification_service.notify(
-                "New Connection",
-                f"{connection.process} → {connection.remote_host}",
+                "New Network Activity",
+                message,
             )
 
         self.history_service.save(connections)
-
+        
     def connection_selected(self, connection):
 
         self.selected_connection = connection
@@ -285,6 +326,39 @@ class MainWindow(QMainWindow):
             "History cleared",
             3000,
         )
+
+    def show_settings(self):
+        current = self.settings_service.load()
+
+        dialog = SettingsDialog(
+            current,
+            self,
+        )
+
+        if dialog.exec():
+
+            current.update(
+                dialog.get_settings()
+            )
+
+            self.settings_service.save(current)
+
+            self.toolbar.auto_refresh.setChecked(
+                current["auto_refresh"]
+            )
+
+            self.notification_enabled = current[
+                "notifications"
+            ]
+
+            self.monitor.interval = current[
+                "refresh_interval"
+            ]
+
+            self.status.showMessage(
+                "Settings saved.",
+                3000,
+            )
 
     def kill_process(self):
 

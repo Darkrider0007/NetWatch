@@ -1,85 +1,185 @@
 import os
 import subprocess
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import psutil
 
-from services.process_action_service import ProcessActionService
+from gui.process_action_service import ProcessActionService
 
 
-def test_kill_success(monkeypatch):
+def test_kill_process_not_found():
+
+    service = ProcessActionService()
+
+    with patch(
+        "psutil.Process",
+        side_effect=psutil.NoSuchProcess(1),
+    ):
+
+        success, message = service.kill(1)
+
+    assert success is False
+    assert message == "Process no longer exists."
+
+def test_kill_access_denied():
+
+    service = ProcessActionService()
+
+    with patch(
+        "psutil.Process",
+        side_effect=psutil.AccessDenied(1),
+    ):
+
+        success, message = service.kill(1)
+
+    assert success is False
+
+    assert "Access denied" in message
+
+def test_kill_protected_process():
+
+    service = ProcessActionService()
+
     process = MagicMock()
 
-    monkeypatch.setattr(psutil, "Process", lambda pid: process)
+    process.parent.return_value = None
+
+    process.name.return_value = "System"
+
+    with patch(
+        "psutil.Process",
+        return_value=process,
+    ):
+
+        success, message = service.kill(1)
+
+    assert success is False
+
+    assert "protected" in message.lower()
+
+def test_kill_success():
 
     service = ProcessActionService()
 
-    service.kill(1234)
+    root = MagicMock()
 
-    process.terminate.assert_called_once()
+    root.parent.return_value = None
 
+    root.name.return_value = "chrome.exe"
 
-def test_kill_exception(monkeypatch):
-    monkeypatch.setattr(
-        psutil,
-        "Process",
-        MagicMock(side_effect=Exception()),
-    )
+    root.children.return_value = []
+
+    with patch(
+        "psutil.Process",
+        return_value=root,
+    ):
+
+        with patch(
+            "psutil.wait_procs",
+            return_value=([], []),
+        ):
+
+            success, message = service.kill(1)
+
+    assert success is True
+
+    assert "terminated successfully" in message
+
+    root.kill.assert_called_once()
+
+def test_kill_alive_processes():
 
     service = ProcessActionService()
 
-    service.kill(1234)
+    root = MagicMock()
 
+    root.parent.return_value = None
 
-def test_open_location(monkeypatch):
-    popen = MagicMock()
+    root.name.return_value = "chrome.exe"
 
-    monkeypatch.setattr(subprocess, "Popen", popen)
+    root.children.return_value = []
+
+    alive = [MagicMock()]
+
+    with patch(
+        "psutil.Process",
+        return_value=root,
+    ):
+
+        with patch(
+            "psutil.wait_procs",
+            return_value=([], alive),
+        ):
+
+            success, message = service.kill(1)
+
+    assert success is False
+
+    assert "Unable to terminate" in message
+
+def test_kill_unexpected_exception():
 
     service = ProcessActionService()
 
-    service.open_location(r"C:\temp\file.txt")
+    process = MagicMock()
+
+    process.parent.side_effect = RuntimeError("Boom")
+
+    with patch(
+        "psutil.Process",
+        return_value=process,
+    ):
+
+        success, message = service.kill(1)
+
+    assert success is False
+
+    assert message == "Boom"
+
+def test_open_location():
+
+    service = ProcessActionService()
+
+    with patch.object(subprocess, "Popen") as popen:
+
+        service.open_location(r"C:\Temp\a.exe")
 
     popen.assert_called_once_with(
         [
             "explorer",
             "/select,",
-            r"C:\temp\file.txt",
+            r"C:\Temp\a.exe",
         ]
     )
 
-
-def test_open_location_empty(monkeypatch):
-    popen = MagicMock()
-
-    monkeypatch.setattr(subprocess, "Popen", popen)
+def test_open_location_empty():
 
     service = ProcessActionService()
 
-    service.open_location("")
+    with patch.object(subprocess, "Popen") as popen:
+
+        service.open_location("")
 
     popen.assert_not_called()
 
-
-def test_properties(monkeypatch):
-    startfile = MagicMock()
-
-    monkeypatch.setattr(os, "startfile", startfile, raising=False)
+def test_properties():
 
     service = ProcessActionService()
 
-    service.properties(r"C:\temp\file.txt")
+    with patch.object(os, "startfile", create=True) as startfile:
 
-    startfile.assert_called_once_with(r"C:\temp\file.txt")
+        service.properties(r"C:\Temp\a.exe")
 
+    startfile.assert_called_once_with(
+        r"C:\Temp\a.exe"
+    )
 
-def test_properties_empty(monkeypatch):
-    startfile = MagicMock()
-
-    monkeypatch.setattr(os, "startfile", startfile, raising=False)
+def test_properties_empty():
 
     service = ProcessActionService()
 
-    service.properties("")
+    with patch.object(os, "startfile", create=True) as startfile:
+
+        service.properties("")
 
     startfile.assert_not_called()
