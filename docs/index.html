@@ -5,63 +5,50 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>NetWatch | Windows Network Monitor</title>
 
-    <meta
-        name="description"
-        content="NetWatch is an open-source Windows desktop application for monitoring live network connections.">
+    <meta name="description"
+        content="NetWatch is an open-source Windows application for monitoring active network connections and viewing process information.">
 
-    <meta
-        name="theme-color"
-        content="#2563eb">
+    <meta name="theme-color" content="#2563eb">
 
-    <link
-        rel="icon"
-        href="assets/favicon.ico">
+    <link rel="icon" href="assets/favicon.ico">
 
-    <link
-        rel="stylesheet"
-        href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 
 <body>
 
-    <!-- ========================= -->
-    <!-- Navigation -->
-    <!-- ========================= -->
-
     <header>
 
         <nav class="navbar">
 
-            <div class="logo">
+            <a href="#top" class="brand">
 
-                <img
-                    src="assets/logo.png"
-                    alt="NetWatch">
+                <img src="assets/logo.png" alt="NetWatch Logo">
 
                 <span>NetWatch</span>
 
-            </div>
+            </a>
 
             <ul>
 
+                <li><a href="#overview">Overview</a></li>
+
                 <li><a href="#features">Features</a></li>
 
-                <li><a href="#screenshots">Screenshots</a></li>
+                <li><a href="#install">Installation</a></li>
+
+                <li><a href="#usage">Usage</a></li>
 
                 <li><a href="#download">Download</a></li>
 
                 <li>
 
-                    <a
-                        href="https://github.com/Darkrider0007/NetWatch"
-                        target="_blank">
+                    <a href="https://github.com/Darkrider0007/NetWatch" target="_blank">
 
                         GitHub
 
@@ -75,447 +62,646 @@
 
     </header>
 
+    <main id="top">
 
+        <!-- ====================================== -->
+        <!-- Hero -->
+        <!-- ====================================== -->
 
-    <!-- ========================= -->
-    <!-- Hero -->
-    <!-- ========================= -->
+        <section class="hero">
 
-    <section class="hero">
+            <div class="container">
 
-        <div class="hero-content">
+                <img src="assets/logo.png" class="hero-logo" alt="NetWatch">
 
-            <img
-                src="assets/logo.png"
-                class="hero-logo"
-                alt="NetWatch">
+                <h1>
 
-            <h1>
+                    NetWatch
 
-                Monitor Your Network
-                Like Never Before
-
-            </h1>
-
-            <p>
-
-                NetWatch is an open-source Windows application
-                that displays live Internet connections made by running
-                applications with DNS resolution, GeoIP lookup,
-                connection history, statistics, and much more.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <a
-                    id="download-btn"
-                    class="btn primary"
-                    href="#"
-                    target="_blank">
-                    
-                    Download for Windows                 
-
-                </a>
-
-                <a
-                    class="btn secondary"
-                    target="_blank"
-                    href="https://github.com/Darkrider0007/NetWatch">
-
-                    View Source
-
-                </a>
-
-            </div>
-
-            <div class="hero-info">
-
-                <span>MIT License</span>
-
-                <span>Windows 10 / 11</span>
-
-                <span>Python + PySide6</span>
-
-            </div>
-
-        </div>
-
-        <div class="hero-image">
-
-            <img
-                src="assets/hero.png"
-                alt="NetWatch Screenshot">
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- About -->
-    <!-- ========================= -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>
-
-                Why NetWatch?
-
-            </h2>
-
-            <p class="section-text">
-
-                Unlike packet sniffers, NetWatch focuses on showing
-                which applications are communicating over the Internet.
-                It enriches each connection with process details,
-                executable information, publisher, DNS hostname,
-                country, and connection history.
-
-            </p>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- Features -->
-    <!-- ========================= -->
-
-    <section
-        class="section"
-        id="features">
-
-        <div class="container">
-
-            <h2>
-
-                Features
-
-            </h2>
-
-            <div class="features-grid">
-
-                <div class="card">
-
-                    <h3>
-
-                        Live Monitoring
-
-                    </h3>
-
-                    <p>
-
-                        Displays active TCP and UDP
-                        connections in real time.
-
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>
-
-                        DNS Resolution
-
-                    </h3>
-
-                    <p>
-
-                        Automatically resolves IP
-                        addresses into hostnames.
-
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>
-
-                        GeoIP Lookup
-
-                    </h3>
-
-                    <p>
-
-                        Shows the country of every
-                        remote connection.
-
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>
-
-                        Connection History
-
-                    </h3>
-
-                    <p>
-
-                        Saves previous connections
-                        into SQLite.
-
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>
-
-                        CSV Export
-
-                    </h3>
-
-                    <p>
-
-                        Export current connections
-                        for auditing and reporting.
-
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>
-
-                        Desktop Notifications
-
-                    </h3>
-
-                    <p>
-
-                        Alerts when new applications
-                        connect to the Internet.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- Screenshots -->
-    <!-- ========================= -->
-
-    <section
-        class="section"
-        id="screenshots">
-
-        <div class="container">
-
-            <h2>
-
-                Screenshots
-
-            </h2>
-
-            <div class="gallery">
-
-                <img
-                    src="assets/screenshot-main.png"
-                    alt="Main Window">
-
-                <img
-                    src="assets/screenshot-history.png"
-                    alt="History">
-
-                <img
-                    src="assets/screenshot-filter.png"
-                    alt="Filtering">
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- Download -->
-    <!-- ========================= -->
-
-    <section
-        class="section"
-        id="download">
-
-        <div class="container download-box">
-
-            <h2>
-
-                Download NetWatch
-
-            </h2>
-
-            <p>
-
-                Version <strong id="release-version">Loading...</strong>
-
-            </p>
-
-            <a
-                id="release-download-btn"
-                class="btn primary large"
-                href="#">
-
-                Download for Windows
-
-            </a>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- SmartScreen -->
-    <!-- ========================= -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <div class="notice">
-
-                <h3>
-
-                    Microsoft SmartScreen Notice
-
-                </h3>
+                </h1>
 
                 <p>
 
-                    NetWatch is an open-source application
-                    and is currently not digitally signed.
+                    NetWatch is an open-source Windows desktop application that
+                    displays active network connections together with process
+                    information, executable details, DNS resolution, GeoIP lookup,
+                    and connection history.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a id="download-btn" class="btn primary" href="#">
+
+                        Download
+
+                    </a>
+
+                    <a class="btn secondary" href="https://github.com/Darkrider0007/NetWatch" target="_blank">
+
+                        View Source
+
+                    </a>
+
+                </div>
+
+                <div class="hero-meta">
+
+                    <span>GPL-3.0</span>
+
+                    <span>Windows 10 / 11</span>
+
+                    <span>Python</span>
+
+                    <span>PySide6</span>
+
+                    <span>SQLite</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ====================================== -->
+        <!-- Overview -->
+        <!-- ====================================== -->
+
+        <section id="overview" class="section">
+
+            <div class="container">
+
+                <h2>
+
+                    Overview
+
+                </h2>
+
+                <p>
+
+                    NetWatch focuses on showing which applications are communicating
+                    over the network. Each connection is enriched with process
+                    information, executable path, DNS hostname, remote country,
+                    connection statistics and historical records.
 
                 </p>
 
                 <p>
 
-                    Windows may display
-
-                    <strong>
-
-                        "Windows protected your PC"
-
-                    </strong>
-
-                    the first time you launch it.
+                    The application is intended for developers, system
+                    administrators, security researchers and users who want better
+                    visibility into network activity on Windows.
 
                 </p>
 
-                <ol>
+            </div>
 
+        </section>
+
+        <!-- ====================================== -->
+        <!-- Features -->
+        <!-- ====================================== -->
+
+        <section id="features" class="section">
+
+            <div class="container">
+
+                <h2>
+
+                    Features
+
+                </h2>
+
+                <div class="features-grid">
+
+                    <div class="card">
+
+                        <h3>
+
+                            Live Monitoring
+
+                        </h3>
+
+                        <p>
+
+                            Displays active TCP and UDP connections in real time.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            Process Information
+
+                        </h3>
+
+                        <p>
+
+                            View process name, executable path, PID and publisher
+                            information.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            DNS Resolution
+
+                        </h3>
+
+                        <p>
+
+                            Resolves remote IP addresses into hostnames whenever
+                            available.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            GeoIP Lookup
+
+                        </h3>
+
+                        <p>
+
+                            Displays the country associated with remote IP
+                            addresses.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            Connection History
+
+                        </h3>
+
+                        <p>
+
+                            Stores connection history locally using SQLite for
+                            later inspection.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            Search & Filters
+
+                        </h3>
+
+                        <p>
+
+                            Quickly locate connections using process, host or IP
+                            address filters.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            CSV Export
+
+                        </h3>
+
+                        <p>
+
+                            Export connection information for documentation or
+                            further analysis.
+
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>
+
+                            Desktop Notifications
+
+                        </h3>
+
+                        <p>
+
+                            Receive notifications when newly detected applications
+                            establish network connections.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ====================================== -->
+        <!-- Installation -->
+        <!-- ====================================== -->
+        
+        <section id="install" class="section">
+        
+            <div class="container">
+        
+                <h2>
+        
+                    Installation
+        
+                </h2>
+        
+                <ol class="steps">
+        
                     <li>
-
-                        Click
-                        <strong>More info</strong>
-
+        
+                        Download the latest release from the GitHub Releases page.
+        
                     </li>
-
+        
                     <li>
-
-                        Click
-                        <strong>Run anyway</strong>
-
+        
+                        Extract the downloaded ZIP archive.
+        
                     </li>
-
+        
+                    <li>
+        
+                        Open the extracted folder.
+        
+                    </li>
+        
+                    <li>
+        
+                        Run <strong>NetWatch.exe</strong>.
+        
+                    </li>
+        
+                    <li>
+        
+                        For the best experience, run the application with
+                        administrator privileges.
+        
+                    </li>
+        
                 </ol>
-
-                <p>
-
-                    You can inspect the complete source code
-                    on GitHub before running the application.
-
-                </p>
-
+        
             </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================= -->
-    <!-- Footer -->
-    <!-- ========================= -->
-
-    <footer>
-
-        <div class="footer-content">
-
-            <img
-                src="assets/logo.png"
-                alt="NetWatch">
-
-            <h3>
-
-                NetWatch
-
-            </h3>
-
-            <p>
-
-                Open Source Windows Network Monitor
-
-            </p>
-
-            <div class="footer-links">
-
-                <a
-                    target="_blank"
-                    href="https://github.com/Darkrider0007/NetWatch">
-
-                    GitHub
-
-                </a>
-
-                <a
-                    id="footer-download-btn"
-                    href="#">
-
+        
+        </section>
+        
+        <!-- ====================================== -->
+        <!-- Getting Started -->
+        <!-- ====================================== -->
+        
+        <section id="usage" class="section">
+        
+            <div class="container">
+        
+                <h2>
+        
+                    Getting Started
+        
+                </h2>
+        
+                <ol class="steps">
+        
+                    <li>
+        
+                        Launch NetWatch.
+        
+                    </li>
+        
+                    <li>
+        
+                        Wait a few seconds while active network connections are
+                        enumerated.
+        
+                    </li>
+        
+                    <li>
+        
+                        Browse the connection table to view active TCP and UDP
+                        connections.
+        
+                    </li>
+        
+                    <li>
+        
+                        Select a connection to view process information,
+                        executable path, hostname and country.
+        
+                    </li>
+        
+                    <li>
+        
+                        Use the search box or filters to quickly locate a process,
+                        application or remote host.
+        
+                    </li>
+        
+                    <li>
+        
+                        Export the current list of connections as a CSV file when
+                        required.
+        
+                    </li>
+        
+                </ol>
+        
+            </div>
+        
+        </section>
+        
+        <!-- ====================================== -->
+        <!-- Screenshots -->
+        <!-- ====================================== -->
+        
+        <section id="screenshots" class="section">
+        
+            <div class="container">
+        
+                <h2>
+        
+                    Screenshots
+        
+                </h2>
+        
+                <div class="gallery">
+        
+                    <img src="assets/screenshot-main.png" alt="Main Window">
+        
+                    <img src="assets/screenshot-history.png" alt="Connection History">
+        
+                    <img src="assets/screenshot-filter.png" alt="Filtering">
+        
+                </div>
+        
+            </div>
+        
+        </section>
+        
+        <!-- ====================================== -->
+        <!-- Microsoft SmartScreen -->
+        <!-- ====================================== -->
+        
+        <section class="section">
+        
+            <div class="container">
+        
+                <div class="notice">
+        
+                    <h2>
+        
+                        Microsoft SmartScreen
+        
+                    </h2>
+        
+                    <p>
+        
+                        NetWatch is an open-source application and is currently
+                        distributed without a commercial code-signing certificate.
+        
+                    </p>
+        
+                    <p>
+        
+                        Because the application is not digitally signed, Windows
+                        SmartScreen may display a warning the first time it is
+                        launched.
+        
+                    </p>
+        
+                    <p>
+        
+                        This does <strong>not</strong> indicate that the
+                        application is malicious. The warning simply means that
+                        Windows cannot verify the publisher's identity.
+        
+                    </p>
+        
+                    <ol class="steps">
+        
+                        <li>
+        
+                            Click <strong>More info</strong>.
+        
+                        </li>
+        
+                        <li>
+        
+                            Click <strong>Run anyway</strong>.
+        
+                        </li>
+        
+                    </ol>
+        
+                    <p>
+        
+                        Since NetWatch is fully open source, you may inspect the
+                        source code, build the application yourself, or verify the
+                        release before running it.
+        
+                    </p>
+        
+                </div>
+        
+            </div>
+        
+        </section>
+        
+        <!-- ====================================== -->
+        <!-- Download -->
+        <!-- ====================================== -->
+        
+        <section id="download" class="section">
+        
+            <div class="container download-box">
+        
+                <h2>
+        
                     Download
-
+        
+                </h2>
+        
+                <p>
+        
+                    Latest Release:
+                    <strong id="release-version">
+        
+                        Loading...
+        
+                    </strong>
+        
+                </p>
+        
+                <a id="release-download-btn" class="btn primary" href="#">
+        
+                    Download for Windows
+        
                 </a>
-
+        
+                <p class="download-note">
+        
+                    Releases are distributed as ZIP archives through GitHub
+                    Releases.
+        
+                </p>
+        
             </div>
+        
+        </section>
+        
+        <!-- ====================================== -->
+        <!-- License -->
+        <!-- ====================================== -->
+        
+        <section class="section">
+        
+            <div class="container">
+        
+                <h2>
+        
+                    License
+        
+                </h2>
+        
+                <p>
+        
+                    NetWatch is licensed under the
+                    <strong>GNU General Public License v3.0 (GPL-3.0)</strong>.
+        
+                </p>
+        
+                <p>
+        
+                    You are free to use, study, modify and redistribute the
+                    software in accordance with the terms of the license.
+        
+                </p>
+        
+            </div>
+        
+        </section>
 
-            <p
-                class="copyright"
-                id="copyright">
-
-                Loading copyright...
-
-            </p>
-
-        </div>
-
-    </footer>
-
-
-
-    <script src="script.js"></script>
-
-</body>
-
-</html>
+        <!-- ====================================== -->
+        <!-- Footer -->
+        <!-- ====================================== -->
+        
+        </main>
+        
+        <footer>
+        
+            <div class="container footer">
+        
+                <div class="footer-brand">
+        
+                    <img src="assets/logo.png" alt="NetWatch Logo">
+        
+                    <div>
+        
+                        <h3>
+        
+                            NetWatch
+        
+                        </h3>
+        
+                        <p>
+        
+                            Open Source Windows Network Monitor
+        
+                        </p>
+        
+                    </div>
+        
+                </div>
+        
+                <div class="footer-links">
+        
+                    <a href="#overview">
+        
+                        Overview
+        
+                    </a>
+        
+                    <a href="#features">
+        
+                        Features
+        
+                    </a>
+        
+                    <a href="#install">
+        
+                        Installation
+        
+                    </a>
+        
+                    <a href="#usage">
+        
+                        Usage
+        
+                    </a>
+        
+                    <a href="#download">
+        
+                        Download
+        
+                    </a>
+        
+                    <a href="https://github.com/Darkrider0007/NetWatch" target="_blank">
+        
+                        GitHub
+        
+                    </a>
+        
+                </div>
+        
+                <div class="footer-actions">
+        
+                    <a id="footer-download-btn" class="btn primary" href="#">
+        
+                        Download Latest Release
+        
+                    </a>
+        
+                </div>
+        
+                <p class="footer-license">
+        
+                    Licensed under the GNU General Public License v3.0 (GPL-3.0)
+        
+                </p>
+        
+                <p class="copyright" id="copyright">
+        
+                    Loading...
+        
+                </p>
+        
+            </div>
+        
+        </footer>
+        
+        <script src="script.js"></script>
+        
+        </body>
+        
+        </html>
