@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
     paths:
       - "assets/**"
       - "controllers/**"
@@ -17,7 +16,6 @@ on:
       - "services/**"
       - "themes/**"
       - "utils/**"
-
       - "config.py"
       - "main.py"
       - "main.spec"
@@ -29,12 +27,10 @@ permissions:
   contents: write
 
 jobs:
-  build-latest:
-
+  build:
     runs-on: windows-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -54,6 +50,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
+        shell: powershell
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -68,6 +65,7 @@ jobs:
             -OutFile "resources\geoip\GeoLite2-Country.mmdb"
 
       - name: Build application
+        shell: powershell
         run: |
           pyinstaller main.spec --clean --noconfirm
 
@@ -79,44 +77,21 @@ jobs:
             -DestinationPath NetWatch-latest.zip `
             -Force
 
-      ####################################################################
-      # Move the latest tag
-      ####################################################################
-
-      - name: Update latest tag
-        uses: richardsimko/update-tag@v1
+      - name: Publish Latest Development Release
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          name: NetWatch Latest Development Build
+          artifacts: NetWatch-latest.zip
 
-      ####################################################################
-      # Delete previous latest release (if exists)
-      ####################################################################
-
-      - name: Delete existing latest release
-        continue-on-error: true
-        uses: dev-drprasad/delete-tag-and-release@v1.1
-        with:
-          delete_release: true
-          tag_name: latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      ####################################################################
-      # Recreate latest release
-      ####################################################################
-
-      - name: Create latest release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          name: Latest Development Build
           prerelease: true
-          generate_release_notes: true
+          allowUpdates: true
+          replacesArtifacts: true
+          removeArtifacts: true
 
-          files: |
-            NetWatch-latest.zip
+          generateReleaseNotes: true
+          artifactErrorsFailBuild: true
+          omitBodyDuringUpdate: true
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          makeLatest: false
+          token: ${{ secrets.GITHUB_TOKEN }}
