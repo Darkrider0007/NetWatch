@@ -1,0 +1,122 @@
+name: Latest Development Build
+
+on:
+  push:
+    branches:
+      - main
+
+    paths:
+      - "assets/**"
+      - "controllers/**"
+      - "database/**"
+      - "gui/**"
+      - "icons/**"
+      - "models/**"
+      - "monitor/**"
+      - "resources/**"
+      - "services/**"
+      - "themes/**"
+      - "utils/**"
+
+      - "config.py"
+      - "main.py"
+      - "main.spec"
+      - "requirements.txt"
+      - "settings.json"
+      - "version_info.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  build-latest:
+
+    runs-on: windows-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Download GeoLite Database
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path resources\geoip
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/P3TERX/GeoLite.mmdb/download/GeoLite2-Country.mmdb" `
+            -OutFile "resources\geoip\GeoLite2-Country.mmdb"
+
+      - name: Build application
+        run: |
+          pyinstaller main.spec --clean --noconfirm
+
+      - name: Create ZIP
+        shell: powershell
+        run: |
+          Compress-Archive `
+            -Path dist\main\* `
+            -DestinationPath NetWatch-latest.zip `
+            -Force
+
+      ####################################################################
+      # Move the latest tag
+      ####################################################################
+
+      - name: Update latest tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ####################################################################
+      # Delete previous latest release (if exists)
+      ####################################################################
+
+      - name: Delete existing latest release
+        continue-on-error: true
+        uses: dev-drprasad/delete-tag-and-release@v1.1
+        with:
+          delete_release: true
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ####################################################################
+      # Recreate latest release
+      ####################################################################
+
+      - name: Create latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Development Build
+          prerelease: true
+          generate_release_notes: true
+
+          files: |
+            NetWatch-latest.zip
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
