@@ -3,20 +3,36 @@ import webbrowser
 
 class BrowserService:
 
+    VIRUSTOTAL_FILE_URL = (
+        "https://www.virustotal.com/gui/file/"
+    )
+
     @staticmethod
-    def virustotal(path):
+    def virustotal(sha256: str):
+
+        if not sha256:
+            return False
+
+        normalized_hash = sha256.strip().lower()
+
+        if not normalized_hash:
+            return False
 
         webbrowser.open(
-
-            "https://www.virustotal.com/gui/home/upload"
-
+            f"{BrowserService.VIRUSTOTAL_FILE_URL}"
+            f"{normalized_hash}"
         )
 
+        return True
+
     @staticmethod
-    def whois(ip):
+    def whois(ip: str):
+
+        if not ip:
+            return False
 
         webbrowser.open(
-
             f"https://www.abuseipdb.com/check/{ip}"
-
         )
+
+        return True

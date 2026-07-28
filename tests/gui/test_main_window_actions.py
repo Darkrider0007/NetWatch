@@ -122,3 +122,41 @@ def test_kill_process_cancel(mock_question):
     window.kill_process()
 
     window.process_actions.kill.assert_not_called() # type: ignore
+
+@patch("gui.main_window.SecurityDialog")
+def test_open_security_analysis(
+    mock_dialog,
+):
+
+    window = create_window()
+
+    window.selected_connection = SimpleNamespace(
+        path=r"C:\Program Files\Brave\brave.exe",
+        process="brave.exe",
+    )
+
+    window.monitor.scanner.last_scan.return_value = [] # type: ignore
+
+    dialog = mock_dialog.return_value
+
+    window.open_security_analysis()
+
+    mock_dialog.assert_called_once_with(
+        path=r"C:\Program Files\Brave\brave.exe",
+        process="brave.exe",
+        connections=[],
+        parent=window,
+    )
+
+    dialog.exec.assert_called_once()
+
+@patch("gui.main_window.SecurityDialog")
+def test_open_security_analysis_without_selection(
+    mock_dialog,
+):
+
+    window = create_window()
+
+    window.open_security_analysis()
+
+    mock_dialog.assert_not_called()
