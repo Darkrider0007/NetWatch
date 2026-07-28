@@ -60,6 +60,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path resources\geoip
+
           Invoke-WebRequest `
             -Uri "https://raw.githubusercontent.com/P3TERX/GeoLite.mmdb/download/GeoLite2-Country.mmdb" `
             -OutFile "resources\geoip\GeoLite2-Country.mmdb"
@@ -69,13 +70,37 @@ jobs:
         run: |
           pyinstaller main.spec --clean --noconfirm
 
+      - name: Verify build output
+        shell: powershell
+        run: |
+          Write-Host "Checking PyInstaller output..."
+
+          if (-not (Test-Path "dist\NetWatch")) {
+            Write-Error "dist\NetWatch directory was not created."
+            exit 1
+          }
+
+          if (-not (Test-Path "dist\NetWatch\NetWatch.exe")) {
+            Write-Error "dist\NetWatch\NetWatch.exe was not found."
+            exit 1
+          }
+
+          Write-Host ""
+          Write-Host "Build output:"
+          Get-ChildItem -Path "dist\NetWatch" -Recurse
+
       - name: Create ZIP
         shell: powershell
         run: |
           Compress-Archive `
-            -Path dist\main\* `
-            -DestinationPath NetWatch-latest.zip `
+            -Path "dist\NetWatch\*" `
+            -DestinationPath "NetWatch-latest.zip" `
             -Force
+
+          Write-Host ""
+          Write-Host "Created NetWatch-latest.zip"
+
+          Get-Item "NetWatch-latest.zip"
 
       - name: Publish Latest Development Release
         uses: ncipollo/release-action@v1
