@@ -35,8 +35,8 @@ from services.notification_service import NotificationService
 from services.statistics_service import StatisticsService
 from services.settings_service import SettingsService
 from utils.resource_path import resource_path
-from PySide6.QtGui import QIcon
 from gui.settings_dialog import SettingsDialog
+from gui.security_dialog import SecurityDialog
 
 class MainWindow(QMainWindow):
 
@@ -119,6 +119,9 @@ class MainWindow(QMainWindow):
         self.table.menu.open_location_requested.connect(
             self.open_location
         )
+        self.table.menu.security_analysis_requested.connect(
+            self.open_security_analysis
+        )
 
         central = QWidget()
 
@@ -174,7 +177,7 @@ class MainWindow(QMainWindow):
         self.toolbar.settings_clicked.connect(
             self.show_settings
         )
-        self.table.menu.virustotal_requested.connect(
+        self.table.menu.security_analysis_requested.connect(
             self.open_virustotal
         )
         self.table.menu.whois_requested.connect(
@@ -455,6 +458,24 @@ class MainWindow(QMainWindow):
             self.monitor.wait()
 
         event.accept()
+
+    def open_security_analysis(self):
+
+        if not self.selected_connection:
+            return
+
+        connection = self.selected_connection
+
+        connections = self.monitor.scanner.last_scan()
+
+        dialog = SecurityDialog(
+            path=connection.path,
+            process=connection.process,
+            connections=connections,
+            parent=self,
+        )
+
+        dialog.exec()
 
 
 if __name__ == "__main__":
